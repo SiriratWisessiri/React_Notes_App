@@ -1,17 +1,24 @@
 import './App.css';
 import Main from './Main';
 import Sidebar from './Sidebar';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import uuid from 'react-uuid'; //install external id creator "react-uuid"
 
 
 function App() {
   // set the state for note function
   // Send this state as a prop to Sidebar
-  const [notes, setNotes] = useState([])
+  // JSON.parse(localStorage.notes) will has initial state of your note base on what stored in the local strage
+  const [notes, setNotes] = useState(JSON.parse(localStorage.notes) || [])
 
   // Send this state as a prop to Main and Sidebar
   const [activeNote, setActiveNote] = useState(false) //default state is no avtive note
+
+  // use useEffect to store and fetch the data from local storage. Also can use with API if avaliable
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes))
+  }, [notes]);  
+ 
 
   //function to Add new note
   function onAddNote() {
